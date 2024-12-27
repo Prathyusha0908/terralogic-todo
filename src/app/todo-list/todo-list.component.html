@@ -1,0 +1,47 @@
+<div class="container">
+    <h2 style="text-decoration: underline; text-align: center;">TODO Form</h2>
+    <!-- Todo Form -->
+    <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+        <label for="title">Title</label>
+        <input id="title" formControlName="title" class="form-control" type="text"
+            placeholder="Enter appointment title" />
+        <div *ngIf="todoForm.get('title')?.invalid && todoForm.get('title')?.touched" class="text-danger">
+            Title is required.
+        </div>
+        <label for="date">Date</label>
+        <input id="date" formControlName="date" class="form-control" type="datetime-local"
+            placeholder="Select appointment date" />
+        <div *ngIf="todoForm.get('date')?.invalid && todoForm.get('date')?.touched" class="text-danger">
+            Date is required.
+        </div>
+        <button type="submit" class="btn btn-primary">
+            {{ selectedtodo ? 'Update Appointment' : 'Create Appointment' }}
+        </button>
+    </form>
+    <hr />
+
+    <!-- Todos List -->
+    <h3 style="text-decoration:underline; text-align: center;">TODOs</h3>
+    <div *ngIf="todos.length > 0; else noTodo">
+        <ul class="list-group">
+            <li *ngFor="let todo of todos"
+                class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ todo.title }}</strong>
+                    <p>{{ todo.date | date}}</p>
+                </div>
+                <div>
+                    <button class="btn btn-warning btn-sm" style="margin-right: 5px;"
+                        (click)="onEdit(todo)">Edit</button>
+                    <button class="btn btn-danger btn-sm" (click)="onDelete(todo)">Delete</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <ng-template #noTodo>
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <h4 style="color: gray;">No TODOs Yet</h4>
+        </div>
+    </ng-template>
+
+</div>
